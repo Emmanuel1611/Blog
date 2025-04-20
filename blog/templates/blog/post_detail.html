@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }} - Affiliate Blog{% endblock %}
+{% block content %}
+<section class="py-16 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+        <article class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-8 max-w-4xl mx-auto">
+            {% if post.image %}
+            <img src="{{ post.image }}" alt="{{ post.title }}" class="w-full h-64 object-cover rounded-lg mb-6">
+            {% endif %}
+            <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">{{ post.title }}</h1>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-6">
+                <span>By {{ post.author }}</span>
+                <span class="mx-2">•</span>
+                <span>{{ post.date_posted|date:"F d, Y" }}</span>
+            </div>
+            <div class="prose prose-lg text-gray-800 dark:text-gray-200 max-w-none">
+                {{ post.content|safe }}
+            </div>
+            <!-- Affiliate Link Section -->
+            {% if post.related_product %}
+            <div class="mt-8 p-6 bg-gray-100 dark:bg-gray-600 rounded-lg">
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Recommended Product</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">{{ post.related_product.description|truncatewords:15 }}</p>
+                <a href="{{ post.related_product.affiliate_link }}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">Buy Now</a>
+            </div>
+
+            <div class="mt-6 flex gap-4">
+                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank" class="text-blue-500 hover:text-blue-600">Share on Twitter</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="text-blue-500 hover:text-blue-600">Share on Facebook</a>
+            </div>
+
+            {% endif %}
+        </article>
+    </div>
+</section>
+{% endblock %}
